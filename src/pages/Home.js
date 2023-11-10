@@ -13,6 +13,11 @@ const Home = () => {
     const [curDate, setCurDate] = useState(new Date());
     const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     const headText = `${curDate.getFullYear()} ${month[curDate.getMonth()]}`
+
+    useEffect(()=>{
+        const titleElement = document.getElementsByTagName('title')[0];
+        titleElement.innerHTML = `Mood Diary`;
+    }, []);
     
     useEffect( () => {
         if(diaryList.length >= 1){

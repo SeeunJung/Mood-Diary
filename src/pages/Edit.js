@@ -10,6 +10,11 @@ const Edit = () => {
     const [originData, setOriginData] = useState();
 
     useEffect(()=>{
+        const titleElement = document.getElementsByTagName('title')[0];
+        titleElement.innerHTML = `Edit Diary No. ${id}`;
+    }, []);
+
+    useEffect(()=>{
         if(diaryList.length >= 1){
             const targetDiary = diaryList.find((it)=>parseInt(it.id)===parseFloat(id));
             if(targetDiary){

@@ -7,12 +7,15 @@ import MyButton from "../components/MyButton";
 import { moodList } from "../util/mood";
 
 const Diary = () => {
-
     const {id} = useParams();
     const diaryList = useContext(DiaryStateContext);
     const navigate = useNavigate();
     const [data, setData] = useState();
 
+    useEffect(()=>{
+        const titleElement = document.getElementsByTagName('title')[0];
+        titleElement.innerHTML = `Diary No. ${id}`;
+    }, []);
 
     useEffect(()=>{
         if(diaryList.length >= 1){

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import MyButton from "./MyButton";
@@ -13,12 +13,12 @@ const DiaryEditor = ({isEdit, originData}) => {
     const [date, setDate] = useState(getStringDate(new Date()));
     const [mood, setMood] = useState(3);
 
-    const {onCreate, onEdit} = useContext(DiaryDispatchContext);
+    const {onCreate, onEdit, onRemove} = useContext(DiaryDispatchContext);
     const navigate = useNavigate();
 
-    const handleClickMood = (mood) =>{
+    const handleClickMood = useCallback((mood) =>{
         setMood(mood);
-    };
+    }, []);
 
     const handleSubmit = () => {
         if(content.length<1){
@@ -35,6 +35,13 @@ const DiaryEditor = ({isEdit, originData}) => {
         navigate('/', {replace: true});
     };
 
+    const handleRemove = () => {
+        if(window.confirm('Delete Diary?')){
+            onRemove(originData.id);
+            navigate('/', {replace:true})
+        }
+    };
+
     useEffect(()=>{
         if(isEdit){
             setDate(getStringDate(new Date(parseInt(originData.date))));
@@ -49,6 +56,9 @@ const DiaryEditor = ({isEdit, originData}) => {
             <Header 
                 headText={isEdit?"Edit Diary":"New Diary"} 
                 leftChild={<MyButton text={"< Back"} onClick={()=>navigate(-1)}/>}
+                rightChild={
+                    isEdit&&(<MyButton text={"Delete"} type={'negative'}
+                    onClick={handleRemove}/>)}
             />
             <div>
                 <section>
